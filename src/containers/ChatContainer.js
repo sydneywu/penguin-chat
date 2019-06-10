@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import io from 'socket.io-client';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 class Product extends Component {
     constructor(props) {
@@ -45,33 +47,33 @@ class Product extends Component {
     }
 
     render() {
+        console.log(this.props.messages)
         return (
             <div>
 
-
                 <div>
                     <p> USER </p>
-                    <input onChange={this.onUserChange} value={this.props.user}/>
+                    <TextField variant="outlined" onChange={this.onUserChange} value={this.props.user}/>
                 </div>
 
                 {this.props.connectedRoom &&
                 <div>
                     <p> Connected to {this.props.connectedRoom}</p>
-                    <button onClick={this.disconnect}> Disconnect (not done)</button>
+                    <Button style={{margin:'1%'}}  variant="contained" color="primary" onClick={this.disconnect}> Disconnect (not done)</Button>
                 </div>}
 
                 {!this.props.connectedRoom && (
                     <div>
                         <p> Enter a room </p>
 
-                        <input onChange={this.onRoomChange} value={this.state.room}/>
-                        <button onClick={this.connectRoom}> Connect</button>
+                        <TextField style={{margin:'1%'}} variant="outlined" onChange={this.onRoomChange} value={this.state.room}/>
+                        <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.connectRoom}> Connect</Button>
                     </div>
                 )}
                 <div>
                     <p> INPUT MESSAGE </p>
-                    <input onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
-                    <button onClick={this.sendMessage}>Send Message</button>
+                    <TextField style={{margin:'1%'}} variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
+                    <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
                 </div>
 
                 <div>
