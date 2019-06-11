@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import io from 'socket.io-client';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 class Product extends Component {
     constructor(props) {
@@ -49,45 +50,54 @@ class Product extends Component {
     render() {
         console.log(this.props.messages)
         return (
-            <div>
+            <div style={{marginTop:'5%',marginBottom:'5%'}}>
 
                 <div>
-                    <p> USER </p>
-                    <TextField variant="outlined" onChange={this.onUserChange} value={this.props.user}/>
+                    <TextField fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.props.user}/>
                 </div>
 
                 {this.props.connectedRoom &&
-                <div>
-                    <p> Connected to {this.props.connectedRoom}</p>
+                <div style={{display:"inline-flex"}}>
+                    {this.props.connectedRoom && <TextField style={{width: '60%',margin:'1%',}} variant="outlined" disabled fullWidth value={'Connected to '+this.props.connectedRoom} /> }
                     <Button style={{margin:'1%'}}  variant="contained" color="primary" onClick={this.disconnect}> Disconnect (not done)</Button>
                 </div>}
 
                 {!this.props.connectedRoom && (
-                    <div>
-                        <p> Enter a room </p>
-
-                        <TextField style={{margin:'1%'}} variant="outlined" onChange={this.onRoomChange} value={this.state.room}/>
+                    <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
+                        <TextField  fullWidth  label="Room Name" placeholder="Room Name" style={{width: '60%',margin:'1%',}} variant="outlined" onChange={this.onRoomChange} value={this.state.room}/>
                         <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.connectRoom}> Connect</Button>
                     </div>
                 )}
-                <div>
-                    <p> INPUT MESSAGE </p>
-                    <TextField style={{margin:'1%'}} variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
-                    <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
-                </div>
 
-                <div>
-                    <p> MESSAGES </p>
+                <div style={{width: '70%',
+                    textAlign: 'center',
+                    overflowY: 'hidden',
+                    flexGrow: 1,
+                    verticalAlign: 'middle',
+                    height: '350px',
+                    borderRadius: '6px',
+                    flexBasis: '50%',
+                    border: 'solid red 1px',
+                    margin: '0 auto',
+                    marginTop: '2%',
+                    marginBottom: '2%',}}>
+                    <Typography> MESSAGES </Typography>
                     {
                         this.props.messages.map(message => (
-                            <div key={message.time}>
-                                <p>
+                            <div key={message.time} >
+                                <Typography>
                                     {message.time} - {message.user} - {message.content}
-                                </p>
+                                </Typography>
                             </div>
                         ))
                     }
                 </div>
+
+                <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
+                    <TextField style={{width: '60%',margin:'1%',}}  fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
+                    <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
+                </div>
+
             </div>
         )
     }
