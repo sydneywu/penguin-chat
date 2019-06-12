@@ -114,7 +114,7 @@ class Product extends Component {
                                             <Typography  style={{color: 'rgba(255,253,254,0.87)'}}>{message.content}</Typography>
                                             </div>
                                         </div>
-                                        <div style={{float:'right',marginRight:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
+                                        <div style={{float:'right',marginRight:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('DD-MMMM-YY, hh:mm a')}  - Sent by : {message.user}</Typography></div>
                                     </div>}
                                     {this.state.user !== message.user && <div style={{}}>
                                         <div style={{margin:'1%',float:'right',   width: '100%',
@@ -123,7 +123,7 @@ class Product extends Component {
                                                 <Typography  style={{color: 'black'}}>{message.content}</Typography>
                                             </div>
                                         </div>
-                                        <div style={{float:'left',marginLeft:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
+                                        <div style={{float:'left',marginLeft:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('DD-MMMM-YY, hh:mm a')} - Sent by : {message.user}</Typography></div>
                                     </div>}
                                 </div>
                             ))
@@ -131,7 +131,7 @@ class Product extends Component {
                     </div>
 
                     <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
-                        <TextField style={{width: '60%',margin:'1%',}}  onKeyDown={this._handleKeyDown} fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
+                        <TextField style={{width: '60%',margin:'1%',}}  onKeyDown={this._handleKeyDown} fullWidth label={this.state.user+" Chat Text"} placeholder={this.state.user+" Chat Text"}  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
                         <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
                     </div>
                 </div>}
