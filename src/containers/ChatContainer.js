@@ -50,9 +50,15 @@ class Product extends Component {
     };
 
     onUserChange = (e) => {
-        this.props.setUser(e.target.value)
+        this.props.setUser(e.target.value);
         let user = e.target.value;
         this.setState({user:user})
+    };
+
+    _handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+         this.sendMessage();
+        }
     };
 
     render() {
@@ -63,7 +69,6 @@ class Product extends Component {
 
                 <div>
                     {this.state.hideUserBar === false &&<TextField fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.state.user}/>}
-                    {this.state.hideUserBar === true && <TextField disabled fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.state.user}/>}
                 </div>
 
                 {this.props.connectedRoom &&
@@ -126,7 +131,7 @@ class Product extends Component {
                     </div>
 
                     <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
-                        <TextField style={{width: '60%',margin:'1%',}}  fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
+                        <TextField style={{width: '60%',margin:'1%',}}  onKeyDown={this._handleKeyDown} fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
                         <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
                     </div>
                 </div>}
