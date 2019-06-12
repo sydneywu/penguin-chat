@@ -6,7 +6,7 @@ import {
 } from '../Ducks/chatDuck';
 
 function connect(room) {
-    const socket = io('http://localhost:3032', {query: `room=${room}`});
+    const socket = io('http://localhost:3033', {query: `room=${room}`});
     return new Promise(resolve => {
         socket.on('connect', () => {
             console.log('connected to: ' + room);

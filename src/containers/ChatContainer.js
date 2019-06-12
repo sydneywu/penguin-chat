@@ -57,7 +57,7 @@ class Product extends Component {
                 </div>
 
                 {this.props.connectedRoom &&
-                <div style={{display:"inline-flex"}}>
+                <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
                     {this.props.connectedRoom && <TextField style={{width: '60%',margin:'1%',}} variant="outlined" disabled fullWidth value={'Connected to '+this.props.connectedRoom} /> }
                     <Button style={{margin:'1%'}}  variant="contained" color="primary" onClick={this.disconnect}> Disconnect (not done)</Button>
                 </div>}
