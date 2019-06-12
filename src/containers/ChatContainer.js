@@ -14,7 +14,8 @@ class Product extends Component {
             inputMessage: "",
             connectedRoom: "",
             user: "default",
-            messages: []
+            messages: [],
+            showChatBar:false,
         }
     }
 
@@ -24,31 +25,33 @@ class Product extends Component {
 
     sendMessage = () => {
         this.props.sendMessage(this.state.inputMessage);
-    }
+        this.setState({inputMessage: "",})
+    };
 
     connectRoom = async (e) => {
-        this.props.onConnect({user: this.state.user, room: this.state.room})
+        this.props.onConnect({user: this.state.user, room: this.state.room});
+        this.setState({ showChatBar:true,})
     };
 
     disconnect = async () => {
         this.socket = await this.socket.close();
         this.setState({connectedRoom: ""})
-    }
+    };
 
     onRoomChange = (e) => {
         this.setState({room: e.target.value})
-    }
+    };
 
     onInputMessageChange = (e) => {
         this.setState({inputMessage: e.target.value})
-    }
+    };
 
     onUserChange = (e) => {
         this.props.setUser(e.target.value)
-    }
+    };
 
     render() {
-        console.log(this.props.messages)
+        console.log(this.props.messages);
         return (
             <div style={{marginTop:'5%',marginBottom:'5%'}}>
 
@@ -69,34 +72,41 @@ class Product extends Component {
                     </div>
                 )}
 
-                <div style={{width: '70%',
-                    textAlign: 'center',
-                    overflowY: 'hidden',
-                    flexGrow: 1,
-                    verticalAlign: 'middle',
-                    height: '350px',
-                    borderRadius: '6px',
-                    flexBasis: '50%',
-                    border: 'solid red 1px',
-                    margin: '0 auto',
-                    marginTop: '2%',
-                    marginBottom: '2%',}}>
-                    <Typography> MESSAGES </Typography>
-                    {
-                        this.props.messages.map(message => (
-                            <div key={message.time} >
-                                <Typography>
-                                    {message.time} - {message.user} - {message.content}
-                                </Typography>
-                            </div>
-                        ))
-                    }
-                </div>
+                {this.state.showChatBar === false && <div>
+                    <Typography style={{margin:'5%',color:'red',  fontSize: '4.5rem',
+                        fontFamily: "Roboto, Helvetica, Arial, sans-serif",}}>Connect to room to chat</Typography>
+                </div>}
 
-                <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
-                    <TextField style={{width: '60%',margin:'1%',}}  fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
-                    <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
-                </div>
+                {this.state.showChatBar === true && <div>
+                    <Typography> MESSAGES </Typography>
+                    <div style={{width: '70%',
+                        textAlign: 'center',
+                        overflowY: 'hidden',
+                        flexGrow: 1,
+                        verticalAlign: 'middle',
+                        height: '350px',
+                        borderRadius: '6px',
+                        flexBasis: '50%',
+                        border: 'solid red 1px',
+                        margin: '0 auto',
+                        marginTop: '2%',
+                        marginBottom: '2%',}}>
+                        {
+                            this.props.messages.map(message => (
+                                <div key={message.time} >
+                                    <Typography>
+                                        {message.time} - {message.user} - {message.content}
+                                    </Typography>
+                                </div>
+                            ))
+                        }
+                    </div>
+
+                    <div style={{display:"flex",margin:'0 auto',textAlign:'center',  alignItems: 'center', justifyContent: 'center'}}>
+                        <TextField style={{width: '60%',margin:'1%',}}  fullWidth label="Chat Text" placeholder="Chat Text"  variant="outlined" onChange={this.onInputMessageChange} value={this.state.inputMessage}/>
+                        <Button style={{margin:'1%'}} variant="contained" color="primary" onClick={this.sendMessage}>Send Message</Button>
+                    </div>
+                </div>}
 
             </div>
         )
