@@ -36,8 +36,8 @@ function* read(socket) {
 function* write(socket) {
     while (true) {
         console.log('waiting for message');
-        const { payload: {message} } = yield take("SEND_MESSAGE");
-        socket.emit('MESSAGE', {content: message, user: "default", time: new Date()});
+        const { payload: {message,user} } = yield take("SEND_MESSAGE");
+        socket.emit('MESSAGE', {content: message, user: user, time: new Date()});
 
     }
 }

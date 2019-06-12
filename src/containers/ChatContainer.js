@@ -14,7 +14,7 @@ class Product extends Component {
             room: "",
             inputMessage: "",
             connectedRoom: "",
-            user: "default",
+            user: "",
             messages: [],
             showChatBar:false,
             hideUserBar:false,
@@ -26,7 +26,7 @@ class Product extends Component {
     }
 
     sendMessage = () => {
-        this.props.sendMessage(this.state.inputMessage);
+        this.props.sendMessage({message:this.state.inputMessage,user:this.state.user});
         this.setState({inputMessage: "",})
     };
 
@@ -114,8 +114,8 @@ class Product extends Component {
                                     {this.state.user !== message.user && <div style={{}}>
                                         <div style={{margin:'1%',float:'right',   width: '100%',
                                             flexBasis:'100%',}}>
-                                            <div style={{marginLeft:'2%',float:'left',backgroundColor: 'rgb(111,128,181)',paddingLeft:'5%',paddingRight:'5%',paddingTop:'1%',paddingBottom:'1%',boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',borderRadius:'6px'}}>
-                                                <Typography  style={{color: 'rgba(255,253,254,0.87)'}}>{message.content}</Typography>
+                                            <div style={{marginLeft:'2%',float:'left',backgroundColor: 'rgb(241, 240, 240)',paddingLeft:'5%',paddingRight:'5%',paddingTop:'1%',paddingBottom:'1%',boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',borderRadius:'6px'}}>
+                                                <Typography  style={{color: 'black'}}>{message.content}</Typography>
                                             </div>
                                         </div>
                                         <div style={{float:'left',marginLeft:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
@@ -147,7 +147,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onConnect: ({user, room}) => dispatch({type: "CONNECT", payload: {user: user, room: room}}),
-        sendMessage: (message) => dispatch({type: "SEND_MESSAGE", payload: {message: message}}),
+        sendMessage: ({message,user}) => dispatch({type: "SEND_MESSAGE", payload: {message: message,user: user},},),
         setUser: (user) => dispatch({type: "SET_USER", payload: {user: user}})
     };
 };
