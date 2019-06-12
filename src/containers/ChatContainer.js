@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import io from 'socket.io-client';
+import moment from 'moment';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -81,7 +82,7 @@ class Product extends Component {
                     <Typography> MESSAGES </Typography>
                     <div style={{width: '70%',
                         textAlign: 'center',
-                        overflowY: 'hidden',
+                        overflowY: 'scroll',
                         flexGrow: 1,
                         verticalAlign: 'middle',
                         height: '350px',
@@ -93,10 +94,16 @@ class Product extends Component {
                         marginBottom: '2%',}}>
                         {
                             this.props.messages.map(message => (
-                                <div key={message.time} >
-                                    <Typography>
-                                        {message.time} - {message.user} - {message.content}
-                                    </Typography>
+                                <div style={{}} key={message.time} >
+                                    <div style={{}}>
+                                        <div style={{margin:'1%',float:'right',   width: '100%',
+                                            flexBasis:'100%',}}>
+                                            <div style={{float:'right',backgroundColor: 'rgb(63, 81, 181)',paddingLeft:'5%',paddingRight:'5%',paddingTop:'1%',paddingBottom:'1%',boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',borderRadius:'6px'}}>
+                                            <Typography  style={{color: 'rgba(255,253,254,0.87)'}}>{message.content}</Typography>
+                                            </div>
+                                        </div>
+                                        <div style={{float:'right',marginRight:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
+                                    </div>
                                 </div>
                             ))
                         }
