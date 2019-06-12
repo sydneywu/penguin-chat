@@ -17,6 +17,7 @@ class Product extends Component {
             user: "default",
             messages: [],
             showChatBar:false,
+            hideUserBar:false,
         }
     }
 
@@ -31,12 +32,13 @@ class Product extends Component {
 
     connectRoom = async (e) => {
         this.props.onConnect({user: this.state.user, room: this.state.room});
-        this.setState({ showChatBar:true,})
+        this.setState({ showChatBar:true,hideUserBar:true,})
     };
 
     disconnect = async () => {
         this.socket = await this.socket.close();
-        this.setState({connectedRoom: ""})
+        this.setState({connectedRoom: ""});
+        this.setState({ showChatBar:false,hideUserBar:false,})
     };
 
     onRoomChange = (e) => {
@@ -49,15 +51,19 @@ class Product extends Component {
 
     onUserChange = (e) => {
         this.props.setUser(e.target.value)
+        let user = e.target.value;
+        this.setState({user:user})
     };
 
     render() {
         console.log(this.props.messages);
+
         return (
             <div style={{marginTop:'5%',marginBottom:'5%'}}>
 
                 <div>
-                    <TextField fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.props.user}/>
+                    {this.state.hideUserBar === false &&<TextField fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.state.user}/>}
+                    {this.state.hideUserBar === true && <TextField disabled fullWidth style={{width: '65%',}} label="User Name" placeholder="User Name" variant="outlined" onChange={this.onUserChange} value={this.state.user}/>}
                 </div>
 
                 {this.props.connectedRoom &&
@@ -95,7 +101,8 @@ class Product extends Component {
                         {
                             this.props.messages.map(message => (
                                 <div style={{}} key={message.time} >
-                                    <div style={{}}>
+                                    {console.log('state:',this.state.user,'message.user:', message.user,this.state.user === message.user)}
+                                    {this.state.user === message.user && <div style={{}}>
                                         <div style={{margin:'1%',float:'right',   width: '100%',
                                             flexBasis:'100%',}}>
                                             <div style={{float:'right',backgroundColor: 'rgb(63, 81, 181)',paddingLeft:'5%',paddingRight:'5%',paddingTop:'1%',paddingBottom:'1%',boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',borderRadius:'6px'}}>
@@ -103,7 +110,16 @@ class Product extends Component {
                                             </div>
                                         </div>
                                         <div style={{float:'right',marginRight:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
-                                    </div>
+                                    </div>}
+                                    {this.state.user !== message.user && <div style={{}}>
+                                        <div style={{margin:'1%',float:'right',   width: '100%',
+                                            flexBasis:'100%',}}>
+                                            <div style={{marginLeft:'2%',float:'left',backgroundColor: 'rgb(111,128,181)',paddingLeft:'5%',paddingRight:'5%',paddingTop:'1%',paddingBottom:'1%',boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',borderRadius:'6px'}}>
+                                                <Typography  style={{color: 'rgba(255,253,254,0.87)'}}>{message.content}</Typography>
+                                            </div>
+                                        </div>
+                                        <div style={{float:'left',marginLeft:'1%',}}><Typography style={{color: 'rgba(199, 199, 199, 0.87)'}}> {moment(message.time).format('Do MMMM YY')} - Sent by : {message.user}</Typography></div>
+                                    </div>}
                                 </div>
                             ))
                         }
